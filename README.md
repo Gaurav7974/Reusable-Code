@@ -1,6 +1,10 @@
 # ML Reusable Code Library
 
-> A production-ready collection of reusable machine learning utilities for data processing, model training, and evaluation.
+A high-quality, production-ready collection of **reusable machine learning utilities** designed to standardize and accelerate real-world ML development.  
+This repository contains modular, documented, framework-agnostic components for data processing, model training, evaluation, and experimentation.
+
+The goal is simple:  
+**Eliminate repetitive coding and provide stable, clean, reusable ML components that can be dropped into any project.**
 
 ---
 
