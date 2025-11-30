@@ -9,272 +9,209 @@ The goal is simple:
 ---
 
 ## Table of Contents
+
 - [Overview](#overview)
-- [Scope](#scope)
-- [Folder Structure](#folder-structure)
-- [Modules](#modules)
-  - [Data](#data)
-  - [Training](#training)
-  - [Evaluation](#evaluation)
-  - [Models](#models)
-  - [Utils](#utils)
+- [Current Structure](#current-structure)
+- [Features](#features)
+- [Installation](#installation)
+- [Usage Examples](#usage-examples)
 - [Design Principles](#design-principles)
 - [Coding Standards](#coding-standards)
-- [Usage Examples](#usage-examples)
-- [Contributing Guidelines](#contributing-guidelines)
-- [Versioning](#versioning)
+- [Contributing](#contributing)
+- [Roadmap](#roadmap)
 - [License](#license)
 
 ---
 
 ## Overview
 
-Modern ML workflows repeatedly use the same fundamental tasks:
-- dataset loading  
-- cleaning and preprocessing  
-- splitting and augmentation  
-- training loops  
-- metrics and evaluation  
-- model saving, inference, and utilities  
-- reproducibility and configuration  
+This repository provides **modular, well-documented ML components** to eliminate repetitive coding and accelerate development workflows.
 
-This repository centralizes these components into **a unified, reliable, consistent codebase** so you never rewrite the same functionality again.
-
-Everything in this repo:
-- is **modular**
-- is **fully documented**
-- uses **type hints**
-- avoids framework lock-in whenever possible
-- follows strict quality standards
+**Goal:** Build a standardized library of reusable utilities that work across multiple ML projects.
 
 ---
 
-## Scope
+## Current Structure
 
-This repository includes reusable code for:
-
-### 1. Data Handling
-- dataset loaders  
-- preprocessing utilities  
-- normalization/standardization  
-- augmentation functions  
-- train/val/test splits  
-
-### 2. Training Utilities
-- PyTorch/TensorFlow-compatible training loops  
-- early stopping  
-- checkpoint managers  
-- LR scheduling wrappers  
-- logging helpers  
-
-### 3. Evaluation Tools
-- classification metrics  
-- regression metrics  
-- visualization utilities (confusion matrix, ROC, etc.)  
-
-### 4. Model Utilities
-- model architecture templates  
-- initialization helpers  
-- inference wrappers  
-- save/load utilities  
-
-### 5. Experiment Utilities
-- config loaders  
-- seed setters  
-- experiment folder management  
-
-Anything outside these categories does **not** belong here.
-
----
-
-## Folder Structure
-
-```plaintext
+```
 ml-reusable-code/
 │
-├── data/
-│   ├── loaders/
-│   ├── preprocessing/
-│   ├── augmentation/
-│   └── splits/
+├── data/                   # Data operations
+│   ├── loaders/           # Dataset loaders
+│   ├── preprocessing/     # Data cleaning & transformation
+│   ├── augmentation/      # Data augmentation
+│   └── splits/            # Train/val/test splitting
 │
-├── training/
-│   ├── loops/
-│   ├── callbacks/
-│   ├── schedulers/
-│   └── checkpoints/
+├── training/              # Training utilities
+│   ├── loops/            # Training loops
+│   ├── callbacks/        # Early stopping, logging
+│   ├── checkpoints/      # Model checkpointing
+│   └── schedulers/       # Learning rate schedulers
 │
-├── evaluation/
-│   ├── classification/
-│   ├── regression/
-│   └── visualization/
-│
-├── models/
-│   ├── architectures/
-│   ├── init/
-│   └── inference/
-│
-├── utils/
-│   ├── config/
-│   └── seeds/
-│
-├── tests/
-└── docs/
+├── tests/                # Unit tests
+└── README.md
 ```
-## Folder Rules
-
-Each folder contains:
-- clean utilities  
-- example usage files  
-- individual README files  
-- strict file naming rules (snake_case, no duplicates, one responsibility per file)
 
 ---
 
-## Modules
+## Features
 
-### Data
-Reusable utilities for:
-- CSV loaders  
-- data cleaning  
-- normalization & standardization  
-- missing value handling  
-- outlier removal  
-- image augmentation  
-- robust train/validation/test splitting  
+### Data Module
+* **Dataset Loaders** - CSV, images, and custom formats
+* **Preprocessing** - Cleaning, normalization, standardization
+* **Augmentation** - Image and data augmentation functions
+* **Splitting** - Train/validation/test split utilities
 
----
-
-### Training
-Reusable code for:
-- PyTorch training loops  
-- callbacks (early stopping, logging, checkpointing)  
-- checkpoint saving/loading  
-- LR scheduler wrappers  
+### Training Module
+* **Training Loops** - PyTorch/TensorFlow compatible loops
+* **Callbacks** - Early stopping, logging, custom callbacks
+* **Checkpointing** - Save/load model states
+* **Schedulers** - Learning rate scheduling wrappers
 
 ---
 
-### Evaluation
-Contains tools for:
-- classification metrics  
-- regression metrics  
-- visualization (confusion matrix, ROC, distributions)  
-- reusable evaluation pipelines  
+## Installation
 
----
+**Clone the repository:**
 
-### Models
-Includes:
-- model architectures  
-- weight initialization schemes  
-- inference wrappers  
+```bash
+git clone https://github.com/yourusername/ml-reusable-code.git
+cd ml-reusable-code
+```
 
----
+**Install dependencies:**
 
-### Utils
-Utility helpers for:
-- reproducibility (seed setting)  
-- config handling  
-- experiment directory utilities (auto folder creation, logging, etc.)  
-
----
-
-## Design Principles
-
-### Reuse > Rewrite
-Code must be generic and reusable across multiple projects.
-
-### Framework-Agnostic
-Avoid unnecessary lock-in to PyTorch/TensorFlow.  
-Use core Python, NumPy, and lightweight wrappers whenever possible.
-
-### Strict Modularity
-**One file = one responsibility.**  
-No merging unrelated utilities.
-
-### Documentation First
-Every utility must include:
-- type hints  
-- proper docstring (Google/Numpydoc format)  
-- a minimal example  
-- a folder-level README  
-
-### Consistency
-Naming, folder structure, API design, and coding style must remain uniform across the entire repository.
-
----
-
-## Coding Standards
-
-### Python Rules
-- PEP8 compliance  
-- Type hints required on all functions  
-- Google/Numpydoc docstrings  
-- No dead code or commented-out code  
-- Functions must be deterministic unless explicitly stated  
-
-### Repository Rules
-- No experimental or incomplete code  
-- No dataset/model-specific logic  
-- No hardcoded paths  
-- No large Jupyter notebooks saved to the repo  
-
----
-
-## Testing
-
-All critical utilities must include minimal unit tests located in the `/tests` directory.  
-Tests should validate:
-- expected output shape  
-- determinism  
-- correct error handling  
-- reproducibility where applicable  
+```bash
+pip install -r requirements.txt
+```
 
 ---
 
 ## Usage Examples
 
-### Load a CSV
+### Load a CSV Dataset
+
 ```python
 from data.loaders.load_csv_dataset import load_csv_dataset
 
+# Load and clean CSV data
 df = load_csv_dataset("dataset.csv", dropna=True)
+print(df.head())
 ```
-## Contributing Guidelines
 
-Before adding **ANY** utility, you must verify the following:
+### Split Data
 
-1. The utility is reused across **3 or more** ML projects.  
-2. It is fully **generic** and not tied to any dataset, model architecture, or experiment.  
-3. It includes the following requirements:
-   - complete docstring  
-   - full type hints  
-   - a minimal usage example  
-   - tests in the `/tests` directory  
-   - a folder-level README documenting the module  
+```python
+from data.splits.train_val_test_split import split_data
 
-Pull requests that do **not** meet these criteria will be rejected immediately.
+# Split data into train/val/test
+train, val, test = split_data(df, train_ratio=0.7, val_ratio=0.15, test_ratio=0.15)
+```
+
+### Training Loop
+
+```python
+from training.loops.pytorch_train_loop import train_model
+
+# Train a PyTorch model
+model = train_model(
+    model=my_model,
+    train_loader=train_loader,
+    val_loader=val_loader,
+    epochs=50,
+    device="cuda"
+)
+```
 
 ---
 
-## Versioning
+## Design Principles
 
-This project follows **semantic versioning (SemVer)**:
+| Principle | Description |
+|-----------|-------------|
+| **Modular** | Each utility serves a single, clear purpose |
+| **Framework-Agnostic** | Minimal dependencies, works with PyTorch/TensorFlow |
+| **Well-Documented** | Type hints and docstrings for all functions |
+| **Production-Ready** | Tested, reliable code for real-world projects |
 
-- **v0.1.0** — initial stable release  
-- **v0.2.x** — additional utilities, minor improvements, no breaking changes  
-- **v1.x.x** — major release with guaranteed backward compatibility and a mature API  
+---
 
-Every update must be recorded in the `CHANGELOG.md` file.
+## Coding Standards
+
+* **PEP8 compliance** - Clean, readable code
+* **Type hints required** - All function signatures typed
+* **Docstrings** - Google/Numpydoc format
+* **No hardcoded paths** - All paths parameterized
+* **Framework-agnostic** - Avoid unnecessary lock-in
+
+---
+
+## Contributing
+
+**Before contributing, ensure your code:**
+
+1. Is generic and reusable across multiple projects
+2. Includes complete type hints and docstrings
+3. Has unit tests in `/tests` directory
+4. Includes usage examples
+
+**Example contribution:**
+
+```python
+from typing import List
+import pandas as pd
+
+def load_csv_dataset(filepath: str, dropna: bool = False) -> pd.DataFrame:
+    """
+    Load a CSV dataset with optional preprocessing.
+    
+    Args:
+        filepath: Path to CSV file
+        dropna: Whether to drop rows with missing values
+        
+    Returns:
+        Loaded DataFrame
+        
+    Example:
+        >>> df = load_csv_dataset("data.csv", dropna=True)
+    """
+    df = pd.read_csv(filepath)
+    if dropna:
+        df = df.dropna()
+    return df
+```
+
+---
+
+## Roadmap
+
+- [x] Data loading utilities
+- [x] Training loop foundations
+- [ ] Evaluation metrics and visualization
+- [ ] Model architectures library
+- [ ] Experiment configuration management
+- [ ] Comprehensive test coverage (>80%)
+- [ ] CI/CD pipeline setup
 
 ---
 
 ## License
 
-The recommended license for this repository is the **MIT License**, due to its:
-- broad compatibility  
-- commercial and open-source friendliness  
-- simplicity and minimal restrictions  
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
 
-Include a `LICENSE` file in the repository root with the standard MIT text to finalize licensing.
+---
 
+## Version
+
+**Current Version:** `v0.1.0`  
+**Last Updated:** November 2025
+
+---
+
+<div align="center">
+
+**[Star this repo](https://github.com/yourusername/ml-reusable-code)** if you find it useful!
+
+Made with care for the ML community
+
+</div>
